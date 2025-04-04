@@ -1,0 +1,26 @@
+.login-container {
+    max-width: 400px;
+    padding: 20px;
+    margin: auto;
+    margin-top: 10%;
+    border-radius: 10px;
+    background: white;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .btn {
+    margin-top: 10px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .login-container {
+      width: 90%;
+    }
+  }
+  
