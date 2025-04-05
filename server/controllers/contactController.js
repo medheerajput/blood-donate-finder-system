@@ -38,9 +38,13 @@ exports.IsRequestAccept = async (req, res) => {
     if (req.params.checked === "true") {
       console.log("checked value:", req.params.checked);
 
+      const count = await Contact.countDocuments({
+        requestedUserId: req.user.id,
+        accepted: true,
+      });
       await User.updateOne(
         { _id: req.user.id },
-        { $set: { lastDonate: new Date() } }
+        { $set: { lastDonate: new Date(), donate_made: count } }
       );
     }
 

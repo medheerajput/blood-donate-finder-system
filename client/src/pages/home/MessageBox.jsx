@@ -99,7 +99,7 @@ const MessageBox = ({ step, onClose }) => {
                   <TableCell align="center">
                     {!donor.accepted ? (
                       <Chip
-                        label="Pending"
+                        label="Waiting for approval"
                         sx={{ backgroundColor: "red", color: "white" }}
                       />
                     ) : (

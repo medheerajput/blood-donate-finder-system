@@ -82,14 +82,7 @@ exports.loginUser = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000, // Expires in 1 day
     });
 
-    const count = await Contact.countDocuments({
-      requestedUserId: user._id,
-      accepted: true,
-    });
-
-    await User.updateOne({ _id: user._id }, { $set: { donate_made: count } });
-
-    res.status(200).json({ message: "Login successful", user, token, count });
+    res.status(200).json({ message: "Login successful", user, token });
   } catch (error) {
     console.error("Login Error:", error);
     res.status(500).json({ message: "Server error", error });
@@ -103,6 +96,26 @@ exports.getDonors = async (req, res) => {
       willingToDonate: true,
     }); // Fetch all donors from DB
 
+    res.status(200).json(donors);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+exports.getDonorsforAdmin = async (req, res) => {
+  console.log("triied");
+
+  try {
+    let donors;
+    if (req.params.id == 0) {
+      donors = await User.find({});
+      console.log("donors without pincode:", donors);
+    } else {
+      donors = await User.find({
+        pincode: req.params.id,
+        willingToDonate: true,
+      }); // Fetch all donors from DB
+      console.log("donors with pincode:", donors);
+    }
     res.status(200).json(donors);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });

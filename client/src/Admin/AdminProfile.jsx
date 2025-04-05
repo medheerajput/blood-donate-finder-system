@@ -18,27 +18,13 @@ import {
 } from "@mui/material";
 import { deepOrange, teal } from "@mui/material/colors";
 import React from "react";
-import API from "../../utils/api";
+import API from "../utils/api";
 import { useNavigate } from "react-router-dom";
 
-const Profile = ({ open, user, anchorEl, handleClose }) => {
+const Admin_Profile = ({ open, user, anchorEl, handleClose }) => {
   const navigate = useNavigate();
   const handleLogout = async () => {
-    try {
-      const response = await API.get("/users/logout");
-      const data = response;
-      console.log("response logout:", response);
-
-      if (response) {
-        // 👋 Redirect user to login page or home
-        console.log(data.message);
-        navigate("/login");
-      } else {
-        console.error("Logout failed:", data.message);
-      }
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
+    navigate("/login");
   };
 
   return (
@@ -70,18 +56,8 @@ const Profile = ({ open, user, anchorEl, handleClose }) => {
           {user?.name.charAt(0)}
         </Avatar>
         <Typography variant="h6">{user?.name}</Typography>
-        <Chip
-          label={`Blood Group: ${user?.bloodGroup}`}
-          size="small"
-          icon={<Favorite sx={{ fontSize: 16 }} />}
-          sx={{
-            mt: 1,
-            backgroundColor: "#ffeeee",
-            color: deepOrange[600],
-          }}
-        />
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          {user?.donate_made ? user.donate_made : 0} donations made
+          I am Admin
         </Typography>
       </Box>
 
@@ -122,4 +98,4 @@ const Profile = ({ open, user, anchorEl, handleClose }) => {
   );
 };
 
-export default Profile;
+export default Admin_Profile;

@@ -3,6 +3,7 @@ import {
   DoneSharp,
   Email,
   Favorite,
+  LocalHospital,
   LocationOn,
   Send,
 } from "@mui/icons-material";
@@ -13,13 +14,27 @@ import {
   Card,
   CardContent,
   Chip,
+  FormControl,
+  Grid,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
   Typography,
 } from "@mui/material";
 import { blue, deepOrange, red, teal } from "@mui/material/colors";
 import React from "react";
 import dayjs from "../../utils/dayjsConfig";
 
-const Main = ({ user, donors, sendRequest, step, pincode }) => {
+const Main = ({
+  user,
+  donors,
+  sendRequest,
+  step,
+  pincode,
+  blood,
+  setBlood,
+}) => {
   console.log("donersssss:", donors, pincode);
 
   return (
@@ -40,6 +55,32 @@ const Main = ({ user, donors, sendRequest, step, pincode }) => {
       >
         Donors near {pincode ? pincode : user?.pincode}
       </Typography>
+      <Grid item xs={12} sm={6}>
+        <FormControl fullWidth margin="normal" sx={{ width: "100px" }}>
+          <InputLabel>Blood Group</InputLabel>
+          <Select
+            sx={{ width: "130px" }}
+            value={blood}
+            onChange={(e) => setBlood(e.target.value)}
+            label="Blood Group"
+            startAdornment={
+              <InputAdornment position="start">
+                <LocalHospital color="error" />
+              </InputAdornment>
+            }
+          >
+            <MenuItem value="Clear All">Clear All</MenuItem>
+            <MenuItem value="A+">A+</MenuItem>
+            <MenuItem value="A-">A-</MenuItem>
+            <MenuItem value="B+">B+</MenuItem>
+            <MenuItem value="B-">B-</MenuItem>
+            <MenuItem value="AB+">AB+</MenuItem>
+            <MenuItem value="AB-">AB-</MenuItem>
+            <MenuItem value="O+">O+</MenuItem>
+            <MenuItem value="O-">O-</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
 
       {/* user doner list */}
       {donors.length > 0 ? (

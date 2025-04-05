@@ -13,6 +13,7 @@ import { Bloodtype, Email, Lock } from "@mui/icons-material";
 import { useState } from "react";
 import API from "../../utils/api";
 import { deepOrange } from "@mui/material/colors";
+import auth from "../../Admin/auth";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +26,12 @@ const Login = () => {
       email,
       password,
     };
+    const isAdmin = auth(email, password);
+
+    if (isAdmin) {
+      return navigate("/admin-page");
+    }
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {

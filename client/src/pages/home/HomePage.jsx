@@ -38,9 +38,13 @@ import MessageBox from "./MessageBox";
 import Profile from "./Profile";
 import Navbar from "./Navbar";
 import Main from "./Main";
+import Admin_home from "../../Admin/Admin_home";
+import FooterNote from "../../FooterNote";
 
 const HomePage = () => {
   const [pincode, setPincode] = useState("");
+  const [blood, setBlood] = useState("");
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [donors, setDonors] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
@@ -59,16 +63,20 @@ const HomePage = () => {
         const res = await API.get(
           `/users/get-donors/${pincode || user?.pincode}`
         );
-        const extractedDonerExceptMe = res.data?.filter(
+        let extractedDonerExceptMe = res.data?.filter(
           (u) => u._id !== user._id
         );
-        console.log("extractedDonerExceptMe:", extractedDonerExceptMe);
-
+        // Only filter by bloodGroup if blood is selected AND not "Clear All"
+        if (blood && blood !== "Clear All") {
+          extractedDonerExceptMe = extractedDonerExceptMe.filter(
+            (donor) => donor.bloodGroup === blood
+          );
+        }
         setDonors(extractedDonerExceptMe);
       }
       name();
     }
-  }, [pincode, user?.pincode, refresh]);
+  }, [pincode, user?.pincode, refresh, blood]);
 
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -97,6 +105,8 @@ const HomePage = () => {
           donors={donors}
           sendRequest={sendRequest}
           pincode={pincode}
+          setBlood={setBlood}
+          blood={blood}
         />
       ),
     },
@@ -142,6 +152,8 @@ const HomePage = () => {
 
       {/* Main Content */}
       <Component />
+      {/* footer */}
+      <FooterNote />
     </Box>
   );
 };
